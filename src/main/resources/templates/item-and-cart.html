@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ショッピングサイト</title>
+    <link
+      rel="stylesheet"
+      href="../static/item-and-cart.css"
+      th:href="@{/item-and-cart.css}"
+    />
+  </head>
+  <body>
+    <div id="main">
+      <div id="product-list">
+        <h1>商品一覧</h1>
+        <div th:each="item,status : ${application.itemList}" class="product">
+          <form
+            th:action="@{/shopping/add-to-cart}"
+            method="post"
+            th:object="${item}"
+          >
+            <div class="product-description">
+              <span th:text="*{name}">消しゴム </span>
+              <span
+                th:text="*{#numbers.formatInteger(price, 0, 'COMMA')} + '円'"
+                >100円
+              </span>
+              <input type="hidden" name="index" th:value="${status.index}" />
+            </div>
+
+            <button>カートへ</button>
+          </form>
+        </div>
+      </div>
+      <!-- ショッピングカートの中身を表示するエリア -->
+      <div id="shopping-cart">
+        <h1>ショッピングカート</h1>
+        <!-- 各商品を表示 -->
+        <div
+          th:each="cartItem,status : ${session.cartItemList}"
+          class="product"
+        >
+          <form
+            th:action="@{/shopping/delete-from-cart}"
+            method="post"
+            th:object="${cartItem}"
+          >
+            <!-- 商品の説明 -->
+            <div class="product-description">
+              <span th:text="*{name}">消しゴム </span>
+              <span
+                th:text="*{#numbers.formatInteger(price, 0, 'COMMA')} + '円'"
+              >
+                100円
+              </span>
+              <input type="hidden" name="index" th:value="${status.index}" />
+            </div>
+
+            <button>削除</button>
+          </form>
+        </div>
+
+        <!-- 合計金額 -->
+        <div id="total-price">
+          <span>合計:</span>
+          <span
+            th:text="${#numbers.formatInteger(totalPrice, 0, 'COMMA')} + '円'"
+            >100円</span
+          >
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+@charset "UTF-8";
+#main {
+  display: flex;
+  width: 100%;
+}
+
+#product-list {
+  border: solid 1px;
+  padding: 0 10px 10px 10px;
+  width: 50%;
+}
+
+#shopping-cart {
+  display: flex;
+  flex-direction: column;
+  border: solid 1px;
+  padding: 0 10px 10px 10px;
+  width: 50%;
+}
+
+form {
+  display: flex;
+  align-items: center;
+}
+
+.product-description {
+  margin-right: 10px;
+}
+
+#total-price {
+  text-align: center;
+  margin-top: auto;
+}
+
+.product {
+  margin-bottom: 5px;
+}
