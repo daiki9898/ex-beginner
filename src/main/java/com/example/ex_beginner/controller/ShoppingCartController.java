@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,7 +29,8 @@ public class ShoppingCartController {
             Item item1 = new Item("手帳ノート", 1000);
             Item item2 = new Item("文房具セット", 1500);
             Item item3 = new Item("ファイル", 2000);
-            List<Item> itemList = new LinkedList<Item>(List.of(item1, item2, item3));
+            // 取得のみを行うため、取得が早いArrayListを使用
+            List<Item> itemList = new ArrayList<Item>(List.of(item1, item2, item3));
 
             application.setAttribute("itemList", itemList);
         }
@@ -38,6 +40,7 @@ public class ShoppingCartController {
 
         // ショッピングカートの商品一覧が存在しない場合、空のリストを入れる
         if (cartItemList == null) {
+            // 追加・削除処理が多いため、追加・削除の早いLinkedListを使用した
             session.setAttribute("cartItemList", new LinkedList<Item>());
         } else {
             // 合計金額を算出
@@ -52,7 +55,6 @@ public class ShoppingCartController {
 
     @PostMapping("/add-to-cart")
     public String inCart(String index) {
-        System.out.println(index);
         List<Item> itemList = (List<Item>) application.getAttribute("itemList");
         List<Item> cartItemList = (List<Item>) session.getAttribute("cartItemList");
         // 商品を追加
